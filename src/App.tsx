@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { useLenis } from './lib/useLenis'
 import { Preloader } from './components/Preloader'
-import { Navbar } from './components/Navbar'
+import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
-import { Problem } from './components/Problem'
-import { Solution } from './components/Solution'
+import { About } from './components/About'
+import { Services } from './components/Services'
+import { Delivery } from './components/Delivery'
+import { WhyUs } from './components/WhyUs'
 import { CaseStudies } from './components/CaseStudies'
-import { Pricing } from './components/Pricing'
-import { Testimonials } from './components/Testimonials'
-import { CTAFooter } from './components/CTAFooter'
-import { CustomCursor } from './components/ui/CustomCursor'
-import { ScrollProgress } from './components/ui/ScrollProgress'
+import { Faq } from './components/Faq'
+import { Contact } from './components/Contact'
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
@@ -20,18 +20,17 @@ export default function App() {
 
   return (
     <>
-      <CustomCursor />
-      <ScrollProgress />
-      {!loaded && <Preloader onComplete={handleComplete} />}
-      <Navbar show={loaded} />
+      <AnimatePresence>{!loaded && <Preloader onComplete={handleComplete} />}</AnimatePresence>
+      <Nav show={loaded} />
       <main>
         <Hero playing={loaded} />
-        <Problem />
-        <Solution />
+        <About />
+        <Services />
+        <Delivery />
+        <WhyUs />
         <CaseStudies />
-        <Pricing />
-        <Testimonials />
-        <CTAFooter />
+        <Faq />
+        <Contact />
       </main>
     </>
   )

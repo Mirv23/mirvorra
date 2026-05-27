@@ -6,15 +6,16 @@ type RevealProps = {
   delay?: number
   y?: number
   className?: string
+  once?: boolean
 }
 
-export function Reveal({ children, delay = 0, y = 40, className = '' }: RevealProps) {
+export function Reveal({ children, delay = 0, y = 28, className = '', once = true }: RevealProps) {
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-70px' }}
+      viewport={{ once, margin: '-60px' }}
       transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
@@ -22,73 +23,49 @@ export function Reveal({ children, delay = 0, y = 40, className = '' }: RevealPr
   )
 }
 
-export function RevealScale({ children, delay = 0, className = '' }: RevealProps) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, scale: 0.9, y: 24 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-/* Splits text into words and reveals each word individually */
-export function RevealWords({ text, className = '', delay = 0 }: { text: string; className?: string; delay?: number }) {
+/**
+ * Signature headline animation: each word fades up from blurred → sharp,
+ * staggered left-to-right. Pass words as plain text; wrap a trailing phrase in
+ * <span className="dim"> for the dimmed-tail effect seen in the reference.
+ */
+export function WordReveal({
+  text,
+  className = '',
+  delay = 0,
+  stagger = 0.055,
+  once = true,
+}: {
+  text: string
+  className?: string
+  delay?: number
+  stagger?: number
+  once?: boolean
+}) {
   const words = text.split(' ')
   return (
-    <span className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`} aria-label={text}>
+    <motion.span
+      className={className}
+      aria-label={text}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once, margin: '-12% 0px' }}
+      transition={{ staggerChildren: stagger, delayChildren: delay }}
+    >
       {words.map((word, i) => (
-        <span key={i} className="overflow-hidden inline-block">
+        <span key={i} className="inline-block whitespace-nowrap" aria-hidden="true">
           <motion.span
             className="inline-block"
-            initial={{ y: '110%', opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.75, delay: delay + i * 0.065, ease: [0.16, 1, 0.3, 1] }}
+            variants={{
+              hidden: { opacity: 0, y: '0.42em', filter: 'blur(10px)' },
+              show: { opacity: 1, y: 0, filter: 'blur(0px)' },
+            }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           >
             {word}
           </motion.span>
+          {i < words.length - 1 && ' '}
         </span>
       ))}
-    </span>
-  )
-}
-
-export function SectionHeading({
-  eyebrow,
-  title,
-  subtitle,
-  align = 'center',
-}: {
-  eyebrow: string
-  title: ReactNode
-  subtitle?: string
-  align?: 'center' | 'left'
-}) {
-  const alignClass = align === 'left' ? 'text-left items-start' : 'text-center items-center'
-
-  return (
-    <div className={`mb-16 flex max-w-3xl flex-col gap-4 ${align === 'center' ? 'mx-auto' : ''} ${alignClass}`}>
-      <Reveal>
-        <span className="pill">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          {eyebrow}
-        </span>
-      </Reveal>
-      <Reveal delay={0.08}>
-        <h2 className="font-display text-4xl font-semibold tracking-tight leading-[1.05] md:text-6xl">
-          {title}
-        </h2>
-      </Reveal>
-      {subtitle && (
-        <Reveal delay={0.16}>
-          <p className="text-lg text-muted-text leading-relaxed">{subtitle}</p>
-        </Reveal>
-      )}
-    </div>
+    </motion.span>
   )
 }

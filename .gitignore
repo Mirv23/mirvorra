@@ -2,6 +2,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+mcp-secrets*
 .DS_Store
 .vite
 npm-debug.log*

@@ -10,7 +10,10 @@ type Project = {
   sector: string
   stat: { value: number; suffix: string; label: string }
   gradient: string
+  image?: string
 }
+
+const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DVGvsuhUBCqdq2LgAfQjiKbvtX'
 
 const PROJECTS: Project[] = [
   {
@@ -18,12 +21,14 @@ const PROJECTS: Project[] = [
     sector: 'Restaurant · Pétion-Ville',
     stat: { value: 320, suffix: '%', label: 'de leads en plus' },
     gradient: 'from-primary to-secondary',
+    image: `${CDN}/hf_20260527_201747_5751f9bb-56d6-4a58-b184-52fa1f4fbc2b.png`,
   },
   {
     client: 'Clinique Soleil',
     sector: 'Santé · Cap-Haïtien',
     stat: { value: 60, suffix: '%', label: 'de temps gagné' },
     gradient: 'from-secondary to-accent',
+    image: `${CDN}/hf_20260527_201749_f1a7a325-ef7f-47df-980b-da058d8ed09b.png`,
   },
   {
     client: 'École Avenir',
@@ -108,18 +113,32 @@ export function CaseStudies() {
           {PROJECTS.map((p) => (
             <article
               key={p.client}
-              className="flex w-full flex-none flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-dark-surface p-8 lg:w-[34vw]"
+              className="group flex w-full flex-none flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-dark-surface p-6 transition-colors duration-500 hover:border-primary/30 lg:w-[34vw] lg:p-8"
             >
-              <div className={`mb-8 h-44 rounded-2xl bg-gradient-to-br ${p.gradient} opacity-90`}>
-                <div className="flex h-full items-center justify-center font-display text-2xl font-bold text-white/90">
-                  {p.client}
-                </div>
+              {/* Visual: real generated mockup, else gradient placeholder */}
+              <div className="relative mb-8 h-52 overflow-hidden rounded-2xl border border-white/5">
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={`Aperçu du site ${p.client}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className={`flex h-full items-center justify-center bg-gradient-to-br ${p.gradient}`}>
+                    <span className="font-display text-2xl font-bold text-white/90">{p.client}</span>
+                  </div>
+                )}
+                {/* gradient veil for legibility */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-dark-surface/80 via-transparent to-transparent" />
+                <span className="absolute bottom-3 left-3 rounded-full bg-dark-bg/70 px-3 py-1 text-xs font-medium text-primary backdrop-blur">
+                  {p.sector}
+                </span>
               </div>
               <div>
-                <p className="text-sm text-muted-text">{p.sector}</p>
-                <h3 className="mt-2 font-display text-3xl font-semibold">{p.client}</h3>
-                <div className="mt-6 flex items-baseline gap-3">
-                  <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text font-display text-5xl font-bold text-transparent">
+                <h3 className="font-display text-3xl font-semibold tracking-tight">{p.client}</h3>
+                <div className="mt-5 flex items-baseline gap-3">
+                  <span className="text-gradient font-display text-5xl font-extrabold">
                     <Counter to={p.stat.value} suffix={p.stat.suffix} />
                   </span>
                   <span className="text-sm text-muted-text">{p.stat.label}</span>

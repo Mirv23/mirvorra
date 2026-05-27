@@ -102,7 +102,7 @@ export function Navbar({ show }: { show: boolean }) {
         {/* CTA */}
         <a
           href="#contact"
-          className="group relative hidden overflow-hidden rounded-xl bg-gradient-to-br from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-dark-bg transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.5)] md:flex items-center gap-2"
+          className="group relative hidden overflow-hidden rounded-xl bg-gradient-to-br from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-dark-bg transition-all duration-300 hover:shadow-[0_0_30px_rgba(61, 159, 255,0.5)] md:flex items-center gap-2"
         >
           <span className="relative z-10">Audit gratuit</span>
           <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-0.5">→</span>

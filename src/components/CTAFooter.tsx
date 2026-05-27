@@ -20,7 +20,7 @@ function FloatingField({ id, label, type = 'text' }: { id: string; label: string
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="peer w-full rounded-xl border border-white/12 bg-dark-elevated px-4 pb-2.5 pt-7 text-light-text outline-none transition-all duration-300 focus:border-primary/50 focus:shadow-[0_0_0_3px_rgba(0,240,255,0.1)]"
+        className="peer w-full rounded-xl border border-white/12 bg-dark-elevated px-4 pb-2.5 pt-7 text-light-text outline-none transition-all duration-300 focus:border-primary/50 focus:shadow-[0_0_0_3px_rgba(61, 159, 255,0.1)]"
       />
       <label
         htmlFor={id}
@@ -63,7 +63,7 @@ export function CTAFooter() {
           <div
             className="absolute left-1/2 top-1/2 h-[80vh] w-[80vw] max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
-              background: 'radial-gradient(ellipse, rgba(112,0,255,0.3) 0%, rgba(0,240,255,0.1) 40%, transparent 70%)',
+              background: 'radial-gradient(ellipse, rgba(37, 99, 235,0.3) 0%, rgba(61, 159, 255,0.1) 40%, transparent 70%)',
               filter: 'blur(100px)',
             }}
           />
@@ -107,7 +107,7 @@ export function CTAFooter() {
                 disabled={status !== 'idle'}
                 whileHover={status === 'idle' ? { scale: 1.02 } : {}}
                 whileTap={status === 'idle' ? { scale: 0.98 } : {}}
-                className="group relative mt-2 flex h-14 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary to-secondary font-semibold text-dark-bg shadow-[0_0_40px_rgba(0,240,255,0.3)] transition-shadow hover:shadow-[0_0_60px_rgba(0,240,255,0.5)] disabled:cursor-not-allowed"
+                className="group relative mt-2 flex h-14 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary to-secondary font-semibold text-dark-bg shadow-[0_0_40px_rgba(61, 159, 255,0.3)] transition-shadow hover:shadow-[0_0_60px_rgba(61, 159, 255,0.5)] disabled:cursor-not-allowed"
               >
                 {/* Shimmer */}
                 <span className="absolute inset-0 translate-x-[-110%] skew-x-12 bg-white/25 transition-transform duration-700 group-hover:translate-x-[110%]" />

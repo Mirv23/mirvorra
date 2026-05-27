@@ -17,7 +17,7 @@ const PLANS: Plan[] = [
     name: 'Starter',
     monthly: 499,
     desc: 'Pour lancer votre présence digitale rapidement.',
-    accent: '#00f0ff',
+    accent: '#3d9fff',
     features: ['Site web 1 page', 'Branding express', 'Hébergement 1 an', 'Support email'],
   },
   {
@@ -25,7 +25,7 @@ const PLANS: Plan[] = [
     monthly: 1299,
     popular: true,
     desc: 'La formule complète pour vraiment vendre en ligne.',
-    accent: '#7000ff',
+    accent: '#2563eb',
     features: [
       'Site web 5 pages',
       'Branding complet',
@@ -39,7 +39,7 @@ const PLANS: Plan[] = [
     name: 'Enterprise',
     monthly: 2999,
     desc: 'Sur-mesure pour les grandes ambitions.',
-    accent: '#ff5500',
+    accent: '#f5c518',
     features: [
       'Site illimité sur-mesure',
       'Stratégie de marque 360°',
@@ -74,7 +74,7 @@ function PricingCard({ plan, i, annual }: { plan: Plan; i: number; annual: boole
       whileHover={{ y: -6, transition: { duration: 0.25 } }}
       className={`group spotlight relative flex flex-col overflow-hidden rounded-3xl p-8 ${
         plan.popular
-          ? 'bg-dark-elevated shadow-[0_0_70px_rgba(112,0,255,0.25)]'
+          ? 'bg-dark-elevated shadow-[0_0_70px_rgba(37, 99, 235,0.25)]'
           : 'bg-dark-surface'
       }`}
       style={{
@@ -96,7 +96,7 @@ function PricingCard({ plan, i, annual }: { plan: Plan; i: number; annual: boole
         <div className="absolute -top-px inset-x-0 flex justify-center">
           <span
             className="rounded-b-xl px-5 py-1.5 text-xs font-bold uppercase tracking-wider text-dark-bg"
-            style={{ background: `linear-gradient(90deg, #00f0ff, #7000ff)` }}
+            style={{ background: `linear-gradient(90deg, #3d9fff, #2563eb)` }}
           >
             Le plus populaire
           </span>
@@ -183,7 +183,7 @@ export function Pricing() {
       {/* Background orb */}
       <div
         className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20"
-        style={{ background: 'radial-gradient(ellipse, rgba(112,0,255,0.5), transparent 60%)', filter: 'blur(80px)' }}
+        style={{ background: 'radial-gradient(ellipse, rgba(37, 99, 235,0.5), transparent 60%)', filter: 'blur(80px)' }}
       />
 
       <div className="relative mx-auto max-w-7xl">
@@ -206,7 +206,7 @@ export function Pricing() {
             className="relative h-8 w-14 rounded-full border border-white/15 bg-dark-elevated transition-colors"
           >
             <motion.span
-              className="absolute top-1 h-6 w-6 rounded-full bg-gradient-to-br from-primary to-secondary shadow-[0_0_12px_rgba(0,240,255,0.5)]"
+              className="absolute top-1 h-6 w-6 rounded-full bg-gradient-to-br from-primary to-secondary shadow-[0_0_12px_rgba(61, 159, 255,0.5)]"
               animate={{ left: annual ? 'calc(100% - 1.75rem)' : '0.25rem' }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />

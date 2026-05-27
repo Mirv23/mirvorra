@@ -9,8 +9,8 @@ const PROBLEMS = [
     desc: "Lent, pas mobile, sans appel à l’action clair — vos visiteurs partent en quelques secondes.",
     icon: '⚠',
     color: 'from-accent/30 to-accent-2/10',
-    border: 'rgba(255,0,85,0.3)',
-    glow: 'rgba(255,0,85,0.15)',
+    border: 'rgba(245, 197, 24,0.3)',
+    glow: 'rgba(245, 197, 24,0.15)',
   },
   {
     num: '02',
@@ -18,8 +18,8 @@ const PROBLEMS = [
     desc: 'Une identité générique qui ne crée aucune connexion émotionnelle avec votre marché local.',
     icon: '◈',
     color: 'from-secondary/30 to-primary/10',
-    border: 'rgba(112,0,255,0.3)',
-    glow: 'rgba(112,0,255,0.15)',
+    border: 'rgba(37, 99, 235,0.3)',
+    glow: 'rgba(37, 99, 235,0.15)',
   },
   {
     num: '03',
@@ -27,8 +27,8 @@ const PROBLEMS = [
     desc: "Des textes plats qui décrivent au lieu de convaincre, et qui ne déclenchent jamais l'achat.",
     icon: '✍',
     color: 'from-primary/30 to-secondary/10',
-    border: 'rgba(0,240,255,0.3)',
-    glow: 'rgba(0,240,255,0.15)',
+    border: 'rgba(61, 159, 255,0.3)',
+    glow: 'rgba(61, 159, 255,0.15)',
   },
 ]
 
@@ -98,7 +98,7 @@ export function Problem() {
     <section id="problem" className="relative overflow-hidden px-6 py-32">
       {/* Ambient background */}
       <div className="pointer-events-none absolute -left-40 top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full opacity-20"
-        style={{ background: 'radial-gradient(circle, rgba(255,0,85,0.5), transparent 60%)', filter: 'blur(80px)' }}
+        style={{ background: 'radial-gradient(circle, rgba(245, 197, 24,0.5), transparent 60%)', filter: 'blur(80px)' }}
       />
 
       <div className="mx-auto max-w-7xl">
@@ -140,7 +140,7 @@ export function Problem() {
               {/* Animated gradient border */}
               <div className="absolute inset-0 rounded-3xl opacity-60 animate-spin-slow"
                 style={{
-                  background: 'conic-gradient(from 0deg, rgba(0,240,255,0.4), rgba(112,0,255,0.4), rgba(255,0,85,0.3), rgba(0,240,255,0.4))',
+                  background: 'conic-gradient(from 0deg, rgba(61, 159, 255,0.4), rgba(37, 99, 235,0.4), rgba(245, 197, 24,0.3), rgba(61, 159, 255,0.4))',
                   filter: 'blur(2px)',
                 }}
               />

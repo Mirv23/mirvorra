@@ -24,7 +24,7 @@ export function CustomCursor() {
     }
 
     const onEnter = () => {
-      gsap.to(ring, { scale: 2.2, borderColor: 'rgba(0,240,255,0.9)', duration: 0.3 })
+      gsap.to(ring, { scale: 2.2, borderColor: 'rgba(61, 159, 255,0.9)', duration: 0.3 })
       gsap.to(dot, { scale: 0, duration: 0.2 })
     }
 

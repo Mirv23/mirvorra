@@ -7,7 +7,7 @@ const TESTIMONIALS = [
     role: 'Fondatrice',
     quote: 'Notre site a doublé les réservations en un mois. Mirvorra a tout compris à notre marché.',
     avatar: 'ML',
-    color: '#00f0ff',
+    color: '#3d9fff',
   },
   {
     name: 'Dr. Jean Baptiste',
@@ -15,7 +15,7 @@ const TESTIMONIALS = [
     role: 'Directeur',
     quote: 'Le chatbot WhatsApp gère nos rendez-vous 24/7. On a gagné un temps fou.',
     avatar: 'JB',
-    color: '#7000ff',
+    color: '#2563eb',
   },
   {
     name: 'Nadège Étienne',
@@ -23,7 +23,7 @@ const TESTIMONIALS = [
     role: 'Directrice pédagogique',
     quote: 'Un branding moderne qui parle enfin à la jeunesse. Les inscriptions ont explosé.',
     avatar: 'NÉ',
-    color: '#ff0055',
+    color: '#f5c518',
   },
   {
     name: 'Patrick Joseph',
@@ -31,7 +31,7 @@ const TESTIMONIALS = [
     role: 'CEO',
     quote: "Site livré en 48h, et il vend tout seul. Exactement ce qu'on cherchait.",
     avatar: 'PJ',
-    color: '#ff5500',
+    color: '#f5c518',
   },
   {
     name: 'Sophia Laurent',
@@ -39,7 +39,7 @@ const TESTIMONIALS = [
     role: 'Présidente',
     quote: "Professionnels, rapides, créatifs. Le meilleur investissement de l'année.",
     avatar: 'SL',
-    color: '#00f0ff',
+    color: '#3d9fff',
   },
 ]
 
@@ -99,7 +99,7 @@ export function Testimonials() {
       {/* Ambient */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10"
-        style={{ background: 'radial-gradient(circle, rgba(0,240,255,0.5), transparent 60%)', filter: 'blur(100px)' }}
+        style={{ background: 'radial-gradient(circle, rgba(61, 159, 255,0.5), transparent 60%)', filter: 'blur(100px)' }}
       />
 
       <SectionHeading

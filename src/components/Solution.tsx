@@ -10,7 +10,7 @@ const CARDS = [
     span: 'md:col-span-2',
     rows: 'row-span-1',
     gradient: 'from-primary/20 via-transparent to-transparent',
-    accent: '#00f0ff',
+    accent: '#3d9fff',
     tag: 'Flagship',
   },
   {
@@ -20,7 +20,7 @@ const CARDS = [
     span: '',
     rows: '',
     gradient: 'from-secondary/20 via-transparent to-transparent',
-    accent: '#7000ff',
+    accent: '#2563eb',
     tag: 'Identité',
   },
   {
@@ -30,7 +30,7 @@ const CARDS = [
     span: '',
     rows: '',
     gradient: 'from-accent/20 via-transparent to-transparent',
-    accent: '#ff0055',
+    accent: '#f5c518',
     tag: 'Conversion',
   },
   {
@@ -40,7 +40,7 @@ const CARDS = [
     span: '',
     rows: '',
     gradient: 'from-primary/20 via-transparent to-transparent',
-    accent: '#00f0ff',
+    accent: '#3d9fff',
     tag: 'IA',
   },
   {
@@ -50,7 +50,7 @@ const CARDS = [
     span: 'md:col-span-2',
     rows: '',
     gradient: 'from-secondary/20 via-transparent to-transparent',
-    accent: '#7000ff',
+    accent: '#2563eb',
     tag: 'Dashboard',
   },
   {
@@ -60,7 +60,7 @@ const CARDS = [
     span: '',
     rows: '',
     gradient: 'from-accent-2/20 via-transparent to-transparent',
-    accent: '#ff5500',
+    accent: '#f5c518',
     tag: 'Sécurité',
   },
 ]
@@ -137,7 +137,7 @@ export function Solution() {
       {/* Ambient orb */}
       <div
         className="pointer-events-none absolute right-0 top-1/2 h-[600px] w-[600px] -translate-y-1/2 translate-x-1/2 rounded-full opacity-15"
-        style={{ background: 'radial-gradient(circle, rgba(112,0,255,0.6), transparent 60%)', filter: 'blur(100px)' }}
+        style={{ background: 'radial-gradient(circle, rgba(37, 99, 235,0.6), transparent 60%)', filter: 'blur(100px)' }}
       />
 
       <div className="relative mx-auto max-w-7xl">

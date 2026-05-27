@@ -7,9 +7,9 @@ function Particles({ count = 1600 }: { count?: number }) {
   const { positions, colors } = useMemo(() => {
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
-    const cyan = new THREE.Color('#00f0ff')
-    const purple = new THREE.Color('#7000ff')
-    const pink = new THREE.Color('#ff0055')
+    const cyan = new THREE.Color('#3d9fff')
+    const purple = new THREE.Color('#2563eb')
+    const pink = new THREE.Color('#f5c518')
     for (let i = 0; i < count; i++) {
       const r = 4 + Math.random() * 7
       const theta = Math.random() * Math.PI * 2

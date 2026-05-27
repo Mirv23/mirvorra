@@ -9,6 +9,8 @@ import { CaseStudies } from './components/CaseStudies'
 import { Pricing } from './components/Pricing'
 import { Testimonials } from './components/Testimonials'
 import { CTAFooter } from './components/CTAFooter'
+import { CustomCursor } from './components/ui/CustomCursor'
+import { ScrollProgress } from './components/ui/ScrollProgress'
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
@@ -18,6 +20,8 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
+      <ScrollProgress />
       {!loaded && <Preloader onComplete={handleComplete} />}
       <Navbar show={loaded} />
       <main>

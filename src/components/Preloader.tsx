@@ -1,53 +1,89 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { gsap } from '../lib/anim'
+import { lenisStore } from '../lib/useLenis'
+import { useI18n } from '../lib/i18n'
 
-export function Preloader({ onComplete }: { onComplete: () => void }) {
-  const [count, setCount] = useState(0)
+const WORD = 'NIRMAAN'
 
-  useEffect(() => {
-    const start = performance.now()
-    const dur = 1400
-    let raf = 0
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / dur)
-      setCount(Math.round(p * 100))
-      if (p < 1) raf = requestAnimationFrame(tick)
-      else setTimeout(onComplete, 350)
+/** Boot sequence: wordmark chars rise in, counter runs 000→100, curtain lifts. */
+export function Preloader({ onDone }: { onDone: () => void }) {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [gone, setGone] = useState(false)
+  const { t } = useI18n()
+
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const chars = root.querySelectorAll<HTMLElement>('[data-l]')
+    const num = root.querySelector<HTMLElement>('[data-num]')
+    const bar = root.querySelector<HTMLElement>('[data-bar]')
+    if (!num || !bar) return
+
+    lenisStore.i?.stop()
+    const obj = { v: 0 }
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setGone(true)
+        lenisStore.i?.start()
+      },
+    })
+
+    tl.fromTo(chars, { yPercent: 120 }, { yPercent: 0, duration: 1, ease: 'expo.out', stagger: 0.055 }, 0.15)
+      .to(
+        obj,
+        {
+          v: 100,
+          duration: 1.9,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            num.textContent = String(Math.round(obj.v)).padStart(3, '0')
+          },
+        },
+        0.1,
+      )
+      .fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: 1.9, ease: 'power2.inOut' }, 0.1)
+      .to(chars, { yPercent: -130, duration: 0.7, ease: 'expo.in', stagger: 0.04 }, '+=0.15')
+      .to([num, bar], { opacity: 0, duration: 0.4 }, '<')
+      .add(() => onDone(), '-=0.1')
+      .to(root, { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'expo.inOut' })
+
+    return () => {
+      tl.kill()
     }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [onComplete])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (gone) return null
 
   return (
-    <motion.div
-      initial={{ y: 0 }}
-      exit={{ y: '-100%' }}
-      transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-night text-white"
+    <div
+      ref={rootRef}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-void"
+      style={{ clipPath: 'inset(0 0 0% 0)' }}
+      aria-hidden="true"
     >
-      <motion.div
-        initial={{ scale: 0.7, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="flex items-center gap-3"
-      >
-        <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" aria-hidden="true">
-          <motion.path
-            d="M12 3C8.5 6 7 9 7 12c0 3.5 2.2 6 5 6s5-2.5 5-6c0-3-1.5-6-5-9Z"
-            stroke="currentColor" strokeWidth="1.2"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1 }}
-          />
-          <motion.path
-            d="M12 3v15" stroke="currentColor" strokeWidth="1.2"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, delay: 0.2 }}
-          />
-        </svg>
-        <span className="text-lg font-medium tracking-tight">Mirvorra</span>
-      </motion.div>
-
-      <div className="absolute bottom-10 right-10 text-sm tabular-nums text-white/40">
-        {String(count).padStart(3, '0')}
+      <div className="font-display text-[clamp(2.6rem,10vw,7.5rem)] font-bold tracking-[-0.02em]">
+        {WORD.split('').map((c, i) => (
+          <span key={i} className="inline-block overflow-hidden align-top">
+            <span data-l className="inline-block will-change-transform">
+              {c}
+            </span>
+          </span>
+        ))}
       </div>
-    </motion.div>
+
+      <div className="absolute inset-x-5 bottom-10 sm:inset-x-6 md:inset-x-10">
+        <div className="flex items-end justify-between font-mono text-[0.66rem] uppercase tracking-[0.18em] text-fog">
+          <span>{t.preloader.tag}</span>
+          <span data-num className="text-2xl normal-case tracking-normal text-snow">
+            000
+          </span>
+        </div>
+        <div className="mt-3 h-px w-full bg-line">
+          <div data-bar className="h-px w-full origin-left scale-x-0 bg-gradient-to-r from-violet via-cyan to-mint" />
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,31 +1,37 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { gsap, ScrollTrigger } from './anim'
 
-/**
- * Smooth scroll via Lenis on its own RAF loop.
- * Disabled when the user prefers reduced motion.
- */
+/** Module-level handle so any component (nav, marquee…) can reach the instance. */
+export const lenisStore: { i: Lenis | null } = { i: null }
+
 export function useLenis() {
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) return
+    const lenis = new Lenis({ lerp: 0.1 })
+    lenisStore.i = lenis
 
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    })
+    lenis.on('scroll', ScrollTrigger.update)
+    const raf = (time: number) => lenis.raf(time * 1000)
+    gsap.ticker.add(raf)
+    gsap.ticker.lagSmoothing(0)
 
-    let raf = 0
-    const loop = (time: number) => {
-      lenis.raf(time)
-      raf = requestAnimationFrame(loop)
+    // Smooth anchor navigation
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest?.('a[href^="#"]') as HTMLAnchorElement | null
+      if (!a) return
+      const id = a.getAttribute('href')
+      if (id && id.length > 1 && document.querySelector(id)) {
+        e.preventDefault()
+        lenis.scrollTo(id, { duration: 1.5, offset: 0 })
+      }
     }
-    raf = requestAnimationFrame(loop)
+    document.addEventListener('click', onClick)
 
     return () => {
-      cancelAnimationFrame(raf)
+      document.removeEventListener('click', onClick)
+      gsap.ticker.remove(raf)
       lenis.destroy()
+      lenisStore.i = null
     }
   }, [])
 }

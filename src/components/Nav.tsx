@@ -1,123 +1,180 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { BEZIER } from '../lib/anim'
+import { lenisStore } from '../lib/useLenis'
+import { useI18n, type Lang } from '../lib/i18n'
+import { Magnetic } from './ui/Magnetic'
 
-const LINKS = [
-  { label: 'Services', href: '#services' },
-  { label: 'Approche', href: '#approche' },
-  { label: 'Études de cas', href: '#cases' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Contact', href: '#contact' },
-]
-
-function Mark({ className = '' }: { className?: string }) {
+function LangToggle({ className = '' }: { className?: string }) {
+  const { lang, setLang } = useI18n()
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-      <path d="M12 3C8.5 6 7 9 7 12c0 3.5 2.2 6 5 6s5-2.5 5-6c0-3-1.5-6-5-9Z" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M12 3v15" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
+    <div className={`flex items-center rounded-full border border-line2 p-1 font-mono text-[0.62rem] ${className}`}>
+      {(['hi', 'en'] as Lang[]).map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          aria-pressed={lang === l}
+          className={`rounded-full px-2.5 py-1 transition-colors duration-300 ${
+            lang === l ? 'bg-snow text-void' : 'text-fog hover:text-snow'
+          }`}
+        >
+          {l === 'hi' ? 'हिं' : 'EN'}
+        </button>
+      ))}
+    </div>
   )
 }
 
 export function Nav({ show }: { show: boolean }) {
-  const [scrolled, setScrolled] = useState(false)
-  const [dark, setDark] = useState(true) // dark hero → light text
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [time, setTime] = useState('--:--')
+  const lastY = useRef(0)
 
+  // hide on scroll down, reveal on scroll up
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
-      setScrolled(y > 40)
-      setDark(y < window.innerHeight * 0.82)
+      setScrolled(y > 60)
+      if (Math.abs(y - lastY.current) > 3) {
+        setHidden(y > 180 && y > lastY.current)
+        lastY.current = y
+      }
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Mumbai clock
   useEffect(() => {
-    document.documentElement.classList.toggle('lenis-stopped', open)
-  }, [open])
+    const fmt = new Intl.DateTimeFormat('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata' })
+    const tick = () => setTime(fmt.format(new Date()))
+    tick()
+    const id = setInterval(tick, 15000)
+    return () => clearInterval(id)
+  }, [])
 
-  const textCls = dark && !open ? 'text-white' : 'text-ink'
+  // freeze page scroll while the menu is open + Esc to close
+  useEffect(() => {
+    if (open) lenisStore.i?.stop()
+    else lenisStore.i?.start()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
 
   return (
     <>
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={show ? { y: 0, opacity: 1 } : {}}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        className="fixed inset-x-0 top-0 z-50"
+        initial={{ y: -110 }}
+        animate={{ y: show && (!hidden || open) ? 0 : -110 }}
+        transition={{ duration: 0.7, ease: BEZIER }}
+        className="fixed inset-x-0 top-0 z-[70]"
       >
         <div
           className={`absolute inset-0 transition-all duration-500 ${
-            scrolled && !dark
-              ? 'border-b border-line bg-paper/80 backdrop-blur-xl'
-              : 'border-b border-transparent bg-transparent'
+            scrolled && !open ? 'border-b border-line bg-void/70 backdrop-blur-xl' : 'border-b border-transparent'
           }`}
         />
-        <nav className={`relative mx-auto flex max-w-[1500px] items-center justify-between px-6 py-5 md:px-10 ${textCls} transition-colors duration-500`}>
-          <a href="#hero" className="flex items-center gap-2.5 font-medium tracking-tight">
-            <Mark className="h-5 w-5" />
-            <span className="text-[0.95rem]">Mirvorra</span>
+        <nav className="container-x relative flex items-center justify-between py-4 md:py-5">
+          <a href="#hero" className="font-display text-[1.02rem] font-bold tracking-tight">
+            NIRMAAN<span className="grad-text">.</span>
           </a>
 
-          <span className="absolute left-1/2 hidden -translate-x-1/2 text-[0.8rem] font-medium tracking-tight opacity-70 md:block">
-            Agence IA &amp; Données
-          </span>
+          <div className="hidden items-center gap-2.5 font-mono text-[0.64rem] uppercase tracking-[0.18em] text-fog lg:flex">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-mint" />
+            {t.nav.location} — {time} IST
+          </div>
 
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
-          >
-            <motion.span
-              animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
-              className="block h-[1.5px] w-5 origin-center bg-current"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
-              className="block h-[1.5px] w-5 origin-center bg-current"
-            />
-          </button>
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <LangToggle />
+            <Magnetic>
+              <a
+                href={`mailto:${t.nav.email}`}
+                className="hidden rounded-full border border-line2 px-5 py-2.5 text-[0.8rem] font-medium transition-colors duration-300 hover:bg-snow hover:text-void sm:inline-flex"
+              >
+                {t.nav.cta}
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <button
+                onClick={() => setOpen((v) => !v)}
+                aria-label={open ? 'Close menu' : 'Open menu'}
+                aria-expanded={open}
+                className="relative flex h-11 w-11 items-center justify-center rounded-full border border-line2 transition-colors duration-300 hover:border-snow/50"
+              >
+                <motion.span
+                  animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -3.5 }}
+                  transition={{ duration: 0.4, ease: BEZIER }}
+                  className="absolute block h-[1.5px] w-[18px] bg-snow"
+                />
+                <motion.span
+                  animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 3.5 }}
+                  transition={{ duration: 0.4, ease: BEZIER }}
+                  className="absolute block h-[1.5px] w-[18px] bg-snow"
+                />
+              </button>
+            </Magnetic>
+          </div>
         </nav>
       </motion.header>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-night px-6 md:px-10"
+            initial={{ clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ clipPath: 'inset(0 0 0% 0)' }}
+            exit={{ clipPath: 'inset(0 0 100% 0)' }}
+            transition={{ duration: 0.8, ease: BEZIER }}
+            className="fixed inset-0 z-[60] overflow-y-auto bg-night"
           >
-            <div className="mx-auto w-full max-w-[1500px]">
-              <ul className="flex flex-col gap-2">
-                {LINKS.map((l, i) => (
-                  <motion.li
-                    key={l.href}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.12 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <a
+            <div className="pointer-events-none absolute right-[-10%] top-[-20%] h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.14),transparent_65%)] blur-2xl" />
+            <div className="container-x grid min-h-full grid-cols-1 gap-10 pb-12 pt-28 md:pt-32 lg:grid-cols-[1.5fr_1fr]">
+              <ul>
+                {t.nav.links.map((l, i) => (
+                  <li key={l.href} className="overflow-hidden">
+                    <motion.a
+                      initial={{ y: '115%' }}
+                      animate={{ y: 0, transition: { delay: 0.25 + i * 0.07, duration: 0.8, ease: BEZIER } }}
+                      exit={{ y: '115%', transition: { duration: 0.35, ease: BEZIER } }}
                       href={l.href}
                       onClick={() => setOpen(false)}
-                      className="block py-2 font-medium tracking-tight text-white/90 transition-colors hover:text-white text-[clamp(2.2rem,8vw,5.5rem)] leading-[1.05]"
+                      className="group flex items-baseline gap-4 py-1.5 font-display text-[clamp(2rem,6.5vw,4.4rem)] font-bold leading-[1.15] tracking-tight md:gap-6"
                     >
-                      {l.label}
-                    </a>
-                  </motion.li>
+                      <span className="font-mono text-xs font-normal text-fog">0{i + 1}</span>
+                      <span className="transition-transform duration-500 group-hover:translate-x-3">{l.label}</span>
+                      <span className="grad-text text-[0.5em] opacity-0 transition-opacity duration-300 group-hover:opacity-100">✦</span>
+                    </motion.a>
+                  </li>
                 ))}
               </ul>
+
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-2 text-sm text-white/50"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.55, duration: 0.7, ease: BEZIER } }}
+                exit={{ opacity: 0, transition: { duration: 0.25 } }}
+                className="flex flex-col justify-end gap-8 pb-4"
               >
-                <span>Les Cayes · Haïti</span>
-                <a href="mailto:bonjour@mirvorra.com" className="hover:text-white">bonjour@mirvorra.com</a>
+                <div>
+                  <div className="font-mono text-[0.64rem] uppercase tracking-[0.2em] text-fog">{t.footer.colContact}</div>
+                  <a
+                    href={`mailto:${t.nav.email}`}
+                    onClick={() => setOpen(false)}
+                    className="mt-3 inline-block text-xl font-medium tracking-tight transition-colors hover:text-cyan md:text-2xl"
+                  >
+                    {t.nav.email}
+                  </a>
+                  <p className="mt-2 text-sm text-mist">{t.nav.location}</p>
+                </div>
+                <div className="flex items-center justify-between border-t border-line pt-5">
+                  <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-fog">{t.nav.menuTagline}</span>
+                  <LangToggle />
+                </div>
               </motion.div>
             </div>
           </motion.div>

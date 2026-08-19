@@ -1,81 +1,112 @@
-import { WordReveal } from './ui/Reveal'
+import { useI18n } from '../lib/i18n'
+import { RevealText } from './ui/Text'
+import { Magnetic } from './ui/Magnetic'
 
 export function Contact() {
+  const { t } = useI18n()
+
   return (
     <>
-      <section id="contact" className="relative flex min-h-[88vh] items-end overflow-hidden">
-        {/* dusk gradient backdrop (cool → warm), evoking the reference photo */}
-        <div className="absolute inset-0 bg-[linear-gradient(105deg,#8fa0b8_0%,#b6a9bd_42%,#d9b79b_72%,#e6c4a6_100%)]" />
-        <div className="absolute inset-0 grain" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/35 to-transparent" />
+      <section id="contact" className="relative flex min-h-[95vh] flex-col items-center justify-center overflow-hidden bg-void px-5 py-28 text-center">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[75vmin] w-[75vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.15),rgba(53,214,240,0.06)_45%,transparent_70%)] blur-2xl" />
 
-        <span className="pill-ghost pill-ghost-dark absolute left-6 top-28 md:left-10">
-          ✦ Contact
-        </span>
+        <span className="eyebrow relative">{t.contact.eyebrow}</span>
+        <h2 className="display-h relative mt-6 text-[clamp(2.4rem,8vw,7rem)] leading-[1.1]">
+          <RevealText text={t.contact.titleA} />
+          <br />
+          <span className="grad-chars">
+            <RevealText text={t.contact.titleB} delay={0.15} />
+          </span>
+        </h2>
+        <p className="relative mt-6 max-w-md text-[0.92rem] leading-relaxed text-mist">{t.contact.sub}</p>
 
-        <div className="relative z-10 w-full px-6 pb-16 md:px-10">
-          <h2 className="max-w-4xl text-[clamp(2rem,5.5vw,4.6rem)] font-medium leading-[1.04] text-white">
-            <WordReveal text="Transformer l'incertitude en structure," />{' '}
-            <WordReveal text="et la structure en croissance." className="dim-dark" delay={0.4} />
-          </h2>
-          <a href="mailto:bonjour@mirvorra.com" className="pill-btn mt-9">
-            Nous contacter <span className="arrow">→</span>
+        <Magnetic strength={0.25} className="relative mt-12">
+          <a
+            href={`mailto:${t.nav.email}`}
+            data-cursor="✦"
+            className="group relative flex h-48 w-48 items-center justify-center rounded-full border border-line2 bg-panel/50 backdrop-blur-sm transition-colors duration-500 hover:border-violet md:h-60 md:w-60"
+          >
+            <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full animate-[spin_22s_linear_infinite] opacity-60" aria-hidden="true">
+              <defs>
+                <path id="ctring" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" fill="none" />
+              </defs>
+              <text fill="rgba(240,240,250,0.55)" style={{ fontSize: 9.5, letterSpacing: '0.22em', fontFamily: "'JetBrains Mono','Noto Sans Devanagari',monospace" }}>
+                <textPath href="#ctring">{t.contact.ring}</textPath>
+              </text>
+            </svg>
+            <span className="flex flex-col items-center gap-1.5 px-6">
+              <span className="text-base font-semibold tracking-tight md:text-lg">{t.contact.btn}</span>
+              <span className="grad-text text-2xl transition-transform duration-500 group-hover:translate-x-2">→</span>
+            </span>
           </a>
-        </div>
+        </Magnetic>
       </section>
 
-      <footer className="bg-night text-white">
-        <div className="mx-auto max-w-[1500px] px-6 py-16 md:px-10">
-          <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2.5 font-medium tracking-tight">
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
-                  <path d="M12 3C8.5 6 7 9 7 12c0 3.5 2.2 6 5 6s5-2.5 5-6c0-3-1.5-6-5-9Z" stroke="currentColor" strokeWidth="1.4" />
-                  <path d="M12 3v15" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                Mirvorra
-              </div>
-              <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/45">
-                Agence IA &amp; Données pour les PME des Caraïbes.
-              </p>
+      <footer className="relative overflow-hidden border-t border-line bg-void">
+        <div className="container-x grid grid-cols-2 gap-10 py-14 md:grid-cols-4 md:py-16">
+          <div className="col-span-2 md:col-span-1">
+            <div className="font-display text-[1.02rem] font-bold tracking-tight">
+              NIRMAAN<span className="grad-text">.</span>
             </div>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-fog">{t.footer.blurb}</p>
+          </div>
 
-            <FooterCol title="Services" links={['Stratégie IA', 'Sites web', 'Branding', 'Automatisation']} />
-            <FooterCol title="Société" links={['À propos', 'Approche', 'Études de cas', 'FAQ']} />
-            <div>
-              <div className="text-[0.72rem] font-medium uppercase tracking-[0.16em] text-white/40">Contact</div>
-              <ul className="mt-4 space-y-2.5 text-sm text-white/65">
-                <li><a href="mailto:bonjour@mirvorra.com" className="transition-colors hover:text-white">bonjour@mirvorra.com</a></li>
-                <li>Les Cayes · Haïti</li>
-                <li className="flex gap-4 pt-1 text-white/45">
-                  <a href="#" className="transition-colors hover:text-white">IG</a>
-                  <a href="#" className="transition-colors hover:text-white">in</a>
-                  <a href="#" className="transition-colors hover:text-white">WA</a>
+          <div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-fog">{t.footer.colNav}</div>
+            <ul className="mt-4 space-y-2.5 text-sm text-mist">
+              {t.nav.links.slice(0, 4).map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="transition-colors hover:text-snow">
+                    {l.label}
+                  </a>
                 </li>
-              </ul>
-            </div>
+              ))}
+            </ul>
           </div>
 
-          <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/35 md:flex-row md:items-center">
-            <span>© {new Date().getFullYear()} Mirvorra. Tous droits réservés.</span>
-            <span>Conçu pour la valeur, bâti pour l'impact.</span>
+          <div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-fog">{t.footer.colServices}</div>
+            <ul className="mt-4 space-y-2.5 text-sm text-mist">
+              {t.footer.servicesLinks.map((l) => (
+                <li key={l}>
+                  <a href="#services" className="transition-colors hover:text-snow">
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
+
+          <div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-fog">{t.footer.colContact}</div>
+            <ul className="mt-4 space-y-2.5 text-sm text-mist">
+              <li>
+                <a href={`mailto:${t.nav.email}`} className="transition-colors hover:text-snow">
+                  {t.nav.email}
+                </a>
+              </li>
+              <li>{t.nav.location}</li>
+              <li className="flex gap-4 pt-1 text-fog">
+                <a href="#" aria-label="LinkedIn" className="transition-colors hover:text-snow">in</a>
+                <a href="#" aria-label="GitHub" className="transition-colors hover:text-snow">GH</a>
+                <a href="#" aria-label="X" className="transition-colors hover:text-snow">X</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* giant outlined wordmark — chars rise on scroll, fill on hover */}
+        <div className="container-x">
+          <div className="wordmark select-none overflow-hidden whitespace-nowrap text-center font-display text-[clamp(3.2rem,13.5vw,13rem)] font-bold leading-[0.95] tracking-[-0.02em]">
+            <RevealText text="NIRMAAN" by="chars" stagger={0.05} />
+          </div>
+        </div>
+
+        <div className="container-x flex flex-col justify-between gap-2 border-t border-line py-6 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-fog md:flex-row">
+          <span>© {new Date().getFullYear()} {t.footer.brand} — {t.footer.rights}</span>
+          <span>{t.footer.tagline}</span>
         </div>
       </footer>
     </>
-  )
-}
-
-function FooterCol({ title, links }: { title: string; links: string[] }) {
-  return (
-    <div>
-      <div className="text-[0.72rem] font-medium uppercase tracking-[0.16em] text-white/40">{title}</div>
-      <ul className="mt-4 space-y-2.5 text-sm text-white/65">
-        {links.map((l) => (
-          <li key={l}><a href="#" className="transition-colors hover:text-white">{l}</a></li>
-        ))}
-      </ul>
-    </div>
   )
 }

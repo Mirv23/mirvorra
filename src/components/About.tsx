@@ -1,58 +1,63 @@
-import { ParticleField } from './ui/ParticleField'
-import { Reveal, WordReveal } from './ui/Reveal'
+import { motion } from 'framer-motion'
+import { BEZIER } from '../lib/anim'
+import { useI18n } from '../lib/i18n'
+import { ScrubText, Counter } from './ui/Text'
 import { Marquee } from './ui/Marquee'
 
-const CLIENTS = [
-  'Lakay Resto',
-  'Clinique Soleil',
-  'École Avenir',
-  'Boutik Kreyòl',
-  'Caribbean Foods',
-  'Auto Plus',
-  'Hôtel Lumière',
-  'Agro Nord',
-]
+const CLIENTS = ['FinPay', 'LogiTrack', 'MediCare+', 'StreamBox', 'KartHub', 'EduSpark', 'AeroFleet', 'ZenPay']
 
 export function About() {
-  return (
-    <section id="about" className="relative bg-paper py-24 md:py-32">
-      <div className="mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-12 px-6 md:px-10 lg:grid-cols-2 lg:gap-20">
-        {/* particle clarity card */}
-        <Reveal>
-          <div className="relative aspect-square w-full overflow-hidden rounded-[28px] lav-gradient-soft grain">
-            <ParticleField variant="orbit" tone="lav" className="absolute inset-0 h-full w-full" />
-            <span className="absolute bottom-6 left-6 text-sm font-medium tracking-tight text-lav-3">
-              Clarté IA
-            </span>
-          </div>
-        </Reveal>
+  const { t } = useI18n()
 
-        {/* copy */}
-        <div className="max-w-xl">
-          <Reveal>
-            <span className="eyebrow">À propos</span>
-          </Reveal>
-          <h2 className="mt-5 text-[clamp(1.9rem,3.6vw,3.2rem)] leading-[1.08]">
-            <WordReveal text="Mirvorra aide les PME caraïbes à transformer leur potentiel IA en" />{' '}
-            <WordReveal text="impact mesurable." className="dim" delay={0.5} />
-          </h2>
-          <Reveal delay={0.1}>
-            <p className="mt-6 max-w-md text-[0.98rem] leading-relaxed text-ink-soft">
-              On combine vision stratégique et exécution technique concrète pour transformer
-              le potentiel de l'IA en résultats durables : plus de ventes, moins de friction,
-              une marque qui inspire confiance.
-            </p>
-          </Reveal>
-          <Reveal delay={0.18}>
-            <a href="#contact" className="link-arrow mt-8">
-              Réserver mon audit IA <span className="arrow">→</span>
-            </a>
-          </Reveal>
+  return (
+    <section id="about" className="relative bg-void">
+      {/* keyword strip */}
+      <div className="border-y border-line py-5">
+        <Marquee speed={60}>
+          {t.strip.map((k) => (
+            <span key={k} className="mx-5 flex items-center gap-10 font-display text-lg font-semibold tracking-tight text-mist md:text-xl">
+              <span className="grad-text text-sm">✦</span>
+              {k}
+            </span>
+          ))}
+        </Marquee>
+      </div>
+
+      <div className="container-x py-24 md:py-36">
+        <span className="eyebrow">{t.about.eyebrow}</span>
+        <h2 className="display-h mt-8 max-w-5xl text-[clamp(1.7rem,4.4vw,3.6rem)] leading-[1.28]">
+          <ScrubText text={t.about.scrub} />
+        </h2>
+
+        {/* stats */}
+        <div className="mt-16 grid grid-cols-2 border-l border-t border-line md:mt-24 lg:grid-cols-4">
+          {t.about.stats.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.8, delay: i * 0.08, ease: BEZIER }}
+              className="border-b border-r border-line p-6 md:p-9"
+            >
+              <div className="display-h text-[clamp(2.4rem,5vw,4.2rem)] leading-none">
+                <Counter to={s.to} suffix={s.suffix} />
+              </div>
+              <div className="mt-3 max-w-[16ch] text-[0.82rem] leading-snug text-fog">{s.label}</div>
+            </motion.div>
+          ))}
         </div>
       </div>
 
-      <div className="mt-20 border-y border-line py-7 md:mt-28">
-        <Marquee items={CLIENTS} />
+      {/* ghost client marquee */}
+      <div className="border-y border-line py-7">
+        <Marquee speed={45}>
+          {CLIENTS.map((c) => (
+            <span key={c} className="stroke-text mx-8 font-display text-3xl font-bold tracking-tight md:text-4xl">
+              {c}
+            </span>
+          ))}
+        </Marquee>
       </div>
     </section>
   )

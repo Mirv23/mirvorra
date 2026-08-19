@@ -1,37 +1,50 @@
-import { useCallback, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import { useLenis } from './lib/useLenis'
+import { I18nProvider } from './lib/i18n'
+import { Cursor } from './components/Cursor'
 import { Preloader } from './components/Preloader'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
 import { Services } from './components/Services'
-import { Delivery } from './components/Delivery'
+import { Approach } from './components/Approach'
+import { Cases } from './components/Cases'
 import { WhyUs } from './components/WhyUs'
-import { CaseStudies } from './components/CaseStudies'
 import { Faq } from './components/Faq'
 import { Contact } from './components/Contact'
 
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 130, damping: 30, restDelta: 0.001 })
+  return (
+    <motion.div
+      style={{ scaleX }}
+      className="fixed inset-x-0 top-0 z-[80] h-[2px] origin-left bg-gradient-to-r from-violet via-cyan to-mint"
+    />
+  )
+}
+
 export default function App() {
-  const [loaded, setLoaded] = useState(false)
+  const [ready, setReady] = useState(false)
   useLenis()
 
-  const handleComplete = useCallback(() => setLoaded(true), [])
-
   return (
-    <>
-      <AnimatePresence>{!loaded && <Preloader onComplete={handleComplete} />}</AnimatePresence>
-      <Nav show={loaded} />
+    <I18nProvider>
+      <Cursor />
+      <ScrollProgress />
+      <Preloader onDone={() => setReady(true)} />
+      <Nav show={ready} />
       <main>
-        <Hero playing={loaded} />
+        <Hero playing={ready} />
         <About />
         <Services />
-        <Delivery />
+        <Approach />
+        <Cases />
         <WhyUs />
-        <CaseStudies />
         <Faq />
         <Contact />
       </main>
-    </>
+    </I18nProvider>
   )
 }

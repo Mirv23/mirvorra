@@ -1,113 +1,147 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ParticleField } from './ui/ParticleField'
-import { Reveal } from './ui/Reveal'
+import { gsap, BEZIER } from '../lib/anim'
+import { useI18n } from '../lib/i18n'
+import { RevealText } from './ui/Text'
 
-const SERVICES = [
-  {
-    title: 'Stratégie IA & ROI',
-    desc: "Une vision claire et commercialement ancrée de là où l'IA crée de la valeur. On identifie les opportunités, on évalue la faisabilité et on bâtit une feuille de route qui convertit l'ambition en retours mesurables.",
-  },
-  {
-    title: 'Prototypage rapide',
-    desc: '4 à 6 semaines pour transformer une stratégie en produit réel. On construit un MVP fonctionnel, on le teste avec de vrais utilisateurs et on valide le ROI avant d\'investir à grande échelle.',
-  },
-  {
-    title: 'Sites web & E-commerce',
-    desc: "Des sites rapides, élégants et pensés pour vendre. Conçus en 48h, optimisés mobile, et dopés à l'IA pour convertir vos visiteurs en clients — automatiquement.",
-  },
-  {
-    title: 'Branding & Identité',
-    desc: 'Une marque qui inspire confiance dès le premier regard. Logo, palette, ton de voix et système visuel cohérent, taillés pour le marché caraïbe.',
-  },
-  {
-    title: 'Copywriting IA',
-    desc: 'Des messages qui vendent, générés et affinés par IA puis polis à la main. Pages, pubs et séquences qui parlent à vos clients en français et en créole.',
-  },
-  {
-    title: 'Chatbot WhatsApp',
-    desc: 'Un assistant qui répond, qualifie et vend 24/7 sur le canal préféré de vos clients. Intégré à votre catalogue et à votre agenda.',
-  },
-  {
-    title: 'Automatisation & Données',
-    desc: 'On connecte vos outils, on supprime les tâches répétitives et on transforme vos données en décisions. Moins de temps perdu, plus de croissance.',
-  },
+const HUES: [string, string][] = [
+  ['#8b7cff', '#35d6f0'],
+  ['#35d6f0', '#3ef0c0'],
+  ['#6a5ae0', '#8b7cff'],
+  ['#3ef0c0', '#35d6f0'],
+  ['#8b7cff', '#3ef0c0'],
+  ['#35d6f0', '#6a5ae0'],
+  ['#6a5ae0', '#3ef0c0'],
 ]
 
 export function Services() {
-  const [active, setActive] = useState(0)
+  const { t } = useI18n()
+  const [active, setActive] = useState(-1)
+  const [open, setOpen] = useState<number | null>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
+  const quick = useRef<{ x: ((v: number) => void) | null; y: ((v: number) => void) | null }>({ x: null, y: null })
+
+  useEffect(() => {
+    const el = previewRef.current
+    if (!el) return
+    quick.current.x = gsap.quickTo(el, 'x', { duration: 0.4, ease: 'power3.out' })
+    quick.current.y = gsap.quickTo(el, 'y', { duration: 0.4, ease: 'power3.out' })
+  }, [])
+
+  // floating preview shows/hides with the hovered row
+  useEffect(() => {
+    const el = previewRef.current
+    if (!el) return
+    gsap.to(el, {
+      autoAlpha: active >= 0 ? 1 : 0,
+      scale: active >= 0 ? 1 : 0.85,
+      rotate: active >= 0 ? -4 : 0,
+      duration: 0.45,
+      ease: 'power3.out',
+    })
+  }, [active])
+
+  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    const list = listRef.current
+    if (!list) return
+    const r = list.getBoundingClientRect()
+    quick.current.x?.(e.clientX - r.left)
+    quick.current.y?.(e.clientY - r.top)
+  }
 
   return (
-    <section id="services" className="bg-surface py-24 md:py-32">
-      <div className="mx-auto max-w-[1500px] px-6 md:px-10">
-        <div className="flex items-baseline justify-between border-b border-line pb-6">
-          <span className="eyebrow">Nos services</span>
-          <span className="eyebrow">Comment on aide</span>
+    <section id="services" className="relative bg-void py-24 md:py-36">
+      <div className="container-x">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <span className="eyebrow">{t.services.eyebrow}</span>
+            <h2 className="display-h mt-5 text-[clamp(2.2rem,5.5vw,4.6rem)] leading-[1.12]">
+              <RevealText text={t.services.titleA} />{' '}
+              <span className="grad-chars">
+                <RevealText text={t.services.titleB} delay={0.15} />
+              </span>
+            </h2>
+          </div>
+          <span className="stroke-text hidden font-display text-6xl font-bold md:block">07</span>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 pt-10 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-          {/* list */}
-          <ul className="flex flex-col">
-            {SERVICES.map((s, i) => {
-              const on = active === i
-              return (
-                <li key={s.title}>
-                  <button
-                    onMouseEnter={() => setActive(i)}
-                    onFocus={() => setActive(i)}
-                    className="group flex w-full items-center gap-3 border-b border-line/70 py-5 text-left"
-                  >
-                    <motion.span
-                      animate={{ width: on ? 'auto' : 0, opacity: on ? 1 : 0 }}
-                      className="overflow-hidden text-sm tabular-nums text-ink-faint"
-                    >
-                      {String(i + 1).padStart(2, '0')}.
-                    </motion.span>
-                    <span
-                      className={`flex-1 text-[clamp(1.3rem,2.4vw,1.9rem)] font-medium tracking-tight transition-colors duration-300 ${
-                        on ? 'text-ink' : 'text-ink-faint'
-                      }`}
-                    >
-                      {s.title}
-                    </span>
-                    <motion.span
-                      animate={{ x: on ? 0 : -6, opacity: on ? 1 : 0 }}
-                      className="text-ink"
-                    >
-                      →
-                    </motion.span>
-                  </button>
-                </li>
-              )
-            })}
-            <Reveal delay={0.1}>
-              <div className="mt-8 flex items-center gap-8">
-                <a href="#approche" className="link-arrow">Voir notre méthode <span className="arrow">→</span></a>
-                <a href="#cases" className="link-arrow text-ink-soft">Études de cas <span className="arrow">→</span></a>
+        <div ref={listRef} onMouseMove={onMove} onMouseLeave={() => setActive(-1)} className="relative mt-14">
+          {/* cursor-chasing preview card (desktop only) */}
+          <div ref={previewRef} className="pointer-events-none absolute left-0 top-0 z-20 hidden opacity-0 lg:block">
+            <div className="grain h-56 w-44 -translate-x-1/2 -translate-y-[55%] overflow-hidden rounded-2xl">
+              <div
+                className="flex h-full w-full flex-col justify-between p-4 transition-[background] duration-300"
+                style={{
+                  background: `linear-gradient(135deg, ${HUES[Math.max(active, 0)][0]}, ${HUES[Math.max(active, 0)][1]})`,
+                }}
+              >
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-void/70">
+                  {active >= 0 ? t.services.items[active].tag : ''}
+                </span>
+                <span className="font-display text-6xl font-bold text-void/85">
+                  {String(Math.max(active, 0) + 1).padStart(2, '0')}
+                </span>
               </div>
-            </Reveal>
-          </ul>
-
-          {/* visual + description */}
-          <div className="relative hidden flex-col lg:flex">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-paper">
-              <ParticleField variant="orbit" tone="lav" density={0.85} className="absolute inset-0 h-full w-full" />
-            </div>
-            <div className="relative mt-8 min-h-[120px]">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={active}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="max-w-md text-[0.95rem] leading-relaxed text-ink-soft"
-                >
-                  {SERVICES[active].desc}
-                </motion.p>
-              </AnimatePresence>
             </div>
           </div>
+
+          {t.services.items.map((s, i) => {
+            const isOpen = open === i
+            return (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 36 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.7, delay: (i % 4) * 0.05, ease: BEZIER }}
+                onMouseEnter={() => setActive(i)}
+                className="group relative overflow-hidden border-t border-line last:border-b"
+              >
+                {/* hover fill */}
+                <div className="absolute inset-0 origin-bottom scale-y-0 bg-panel transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100" />
+
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="relative z-10 grid w-full grid-cols-[2.6rem_1fr_2.4rem] items-center gap-3 py-6 text-left md:grid-cols-[3.5rem_1fr_auto_2.6rem] md:gap-8 md:py-8"
+                >
+                  <span className="font-mono text-[0.7rem] text-fog">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="display-h min-w-0 text-[clamp(1.35rem,3.4vw,2.7rem)] leading-[1.2] transition-transform duration-500 group-hover:translate-x-3">
+                    {s.title}
+                  </span>
+                  <span className="hidden font-mono text-[0.66rem] uppercase tracking-[0.14em] text-fog md:block">
+                    {s.tag}
+                  </span>
+                  <span className="relative flex h-9 w-9 items-center justify-center justify-self-end rounded-full border border-line2 transition-colors duration-300 group-hover:border-snow/50">
+                    <span className="block h-[1.5px] w-3 bg-snow" />
+                    <motion.span
+                      animate={{ rotate: isOpen ? 0 : 90 }}
+                      transition={{ duration: 0.4, ease: BEZIER }}
+                      className="absolute block h-[1.5px] w-3 bg-snow"
+                    />
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="desc"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: BEZIER }}
+                      className="relative z-10 overflow-hidden"
+                    >
+                      <p className="max-w-2xl pb-7 pl-[3.35rem] text-[0.92rem] leading-relaxed text-mist md:pb-9 md:pl-[5.5rem]">
+                        {s.desc}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

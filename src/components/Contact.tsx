@@ -9,10 +9,15 @@ export function Contact() {
   return (
     <>
       <section id="contact" className="relative flex min-h-[95vh] flex-col items-center justify-center overflow-hidden bg-void px-5 py-28 text-center">
-        {/* shimmering particle wave */}
-        <VideoBg src="/videos/sparkle.mp4" poster="/videos/sparkle.jpg" className="absolute inset-0 h-full w-full opacity-45" />
+        {/* shimmering particle wave, silvered */}
+        <VideoBg
+          src="/videos/sparkle.mp4"
+          poster="/videos/sparkle.jpg"
+          className="absolute inset-0 h-full w-full opacity-40"
+          style={{ filter: 'grayscale(0.9) brightness(0.95)' }}
+        />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-void/35 to-void" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[75vmin] w-[75vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.15),rgba(53,214,240,0.06)_45%,transparent_70%)] blur-2xl" />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[75vmin] w-[75vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(232,233,238,0.1),rgba(232,233,238,0.04)_45%,transparent_70%)] blur-2xl" />
 
         <span className="eyebrow relative">{t.contact.eyebrow}</span>
         <h2 className="display-h relative mt-6 text-[clamp(2.4rem,8vw,7rem)] leading-[1.1]">
@@ -28,7 +33,7 @@ export function Contact() {
           <a
             href={`mailto:${t.nav.email}`}
             data-cursor="✦"
-            className="group relative flex h-48 w-48 items-center justify-center rounded-full border border-line2 bg-panel/50 backdrop-blur-sm transition-colors duration-500 hover:border-violet md:h-60 md:w-60"
+            className="group relative flex h-48 w-48 items-center justify-center rounded-full border border-line2 bg-panel/50 backdrop-blur-sm transition-colors duration-500 hover:border-silver md:h-60 md:w-60"
           >
             <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full animate-[spin_22s_linear_infinite] opacity-60" aria-hidden="true">
               <defs>

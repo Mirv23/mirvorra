@@ -14,8 +14,13 @@ export function Faq() {
 
   return (
     <section id="faq" className="relative overflow-hidden bg-night py-24 md:py-36">
-      {/* soft blue light drift */}
-      <VideoBg src="/videos/bluewave.mp4" poster="/videos/bluewave.jpg" className="absolute inset-0 h-full w-full opacity-[0.14]" />
+      {/* soft light drift, silvered */}
+      <VideoBg
+        src="/videos/bluewave.mp4"
+        poster="/videos/bluewave.jpg"
+        className="absolute inset-0 h-full w-full opacity-[0.13]"
+        style={{ filter: 'grayscale(1)' }}
+      />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night via-night/60 to-night" />
       <div className="container-x relative z-10 grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div>

@@ -81,7 +81,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           </span>
         </div>
         <div className="mt-3 h-px w-full bg-line">
-          <div data-bar className="h-px w-full origin-left scale-x-0 bg-gradient-to-r from-violet via-cyan to-mint" />
+          <div data-bar className="h-px w-full origin-left scale-x-0 bg-gradient-to-r from-silver via-steel to-chrome" />
         </div>
       </div>
     </div>

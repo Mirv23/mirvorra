@@ -88,7 +88,7 @@ export function Nav({ show }: { show: boolean }) {
           </a>
 
           <div className="hidden items-center gap-2.5 font-mono text-[0.64rem] uppercase tracking-[0.18em] text-fog lg:flex">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-mint" />
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-snow" />
             {t.nav.location} — {time} IST
           </div>
 
@@ -134,15 +134,15 @@ export function Nav({ show }: { show: boolean }) {
             transition={{ duration: 0.8, ease: BEZIER }}
             className="fixed inset-0 z-[60] overflow-y-auto bg-night"
           >
-            {/* neon spiral, hue-shifted into the brand palette */}
+            {/* neon spiral, desaturated to silver */}
             <VideoBg
               src="/videos/spiral.mp4"
               poster="/videos/spiral.jpg"
               className="absolute inset-0 h-full w-full opacity-25"
-              style={{ filter: 'hue-rotate(260deg) saturate(0.9)' }}
+              style={{ filter: 'grayscale(1) brightness(1.05)' }}
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-night via-night/70 to-night/40" />
-            <div className="pointer-events-none absolute right-[-10%] top-[-20%] h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.14),transparent_65%)] blur-2xl" />
+            <div className="pointer-events-none absolute right-[-10%] top-[-20%] h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(circle,rgba(232,233,238,0.1),transparent_65%)] blur-2xl" />
             <div className="container-x relative z-10 grid min-h-full grid-cols-1 gap-10 pb-12 pt-28 md:pt-32 lg:grid-cols-[1.5fr_1fr]">
               <ul>
                 {t.nav.links.map((l, i) => (
@@ -174,7 +174,7 @@ export function Nav({ show }: { show: boolean }) {
                   <a
                     href={`mailto:${t.nav.email}`}
                     onClick={() => setOpen(false)}
-                    className="mt-3 inline-block text-xl font-medium tracking-tight transition-colors hover:text-cyan md:text-2xl"
+                    className="mt-3 inline-block text-xl font-medium tracking-tight transition-colors hover:text-steel md:text-2xl"
                   >
                     {t.nav.email}
                   </a>

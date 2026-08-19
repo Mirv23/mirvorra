@@ -3,16 +3,15 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { gsap, BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
-import { VideoBg } from './ui/VideoBg'
 
 const HUES: [string, string][] = [
-  ['#8b7cff', '#35d6f0'],
-  ['#35d6f0', '#3ef0c0'],
-  ['#6a5ae0', '#8b7cff'],
-  ['#3ef0c0', '#35d6f0'],
-  ['#8b7cff', '#3ef0c0'],
-  ['#35d6f0', '#6a5ae0'],
-  ['#6a5ae0', '#3ef0c0'],
+  ['#f2f3f6', '#a8abb6'],
+  ['#d6d8e0', '#8f929e'],
+  ['#c3c5cf', '#74767f'],
+  ['#e6e7ec', '#9d9fab'],
+  ['#cfd1da', '#83858f'],
+  ['#dfe1e8', '#9698a4'],
+  ['#b9bcc7', '#6b6d76'],
 ]
 
 export function Services() {
@@ -52,10 +51,7 @@ export function Services() {
   }
 
   return (
-    <section id="services" className="relative overflow-hidden bg-void py-24 md:py-36">
-      {/* rippling hex-grid backdrop */}
-      <VideoBg src="/videos/hex.mp4" poster="/videos/hex.jpg" className="absolute inset-0 h-full w-full opacity-[0.13]" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-void/55 to-void" />
+    <section id="services" className="relative py-24 md:py-36">
       <div className="container-x relative z-10">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

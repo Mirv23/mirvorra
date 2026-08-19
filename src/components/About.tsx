@@ -11,7 +11,7 @@ export function About() {
   const { t } = useI18n()
 
   return (
-    <section id="about" className="relative bg-void">
+    <section id="about" className="relative">
       {/* keyword strip */}
       <div className="border-y border-line py-5">
         <Marquee speed={60}>
@@ -31,7 +31,7 @@ export function About() {
         </h2>
 
         {/* stats — digital-rain circuits behind the counters */}
-        <div className="relative mt-16 md:mt-24">
+        <div className="relative mt-16 overflow-hidden rounded-2xl bg-void/70 backdrop-blur-sm md:mt-24">
           <VideoBg src="/videos/rain.mp4" poster="/videos/rain.jpg" className="absolute inset-0 h-full w-full opacity-30" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void/60 via-transparent to-void/60" />
           <div className="relative grid grid-cols-2 border-l border-t border-line lg:grid-cols-4">

@@ -5,25 +5,26 @@
   --font-sans: 'Instrument Sans', 'Noto Sans Devanagari', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Noto Sans Devanagari', ui-monospace, 'SFMono-Regular', monospace;
 
-  --color-void: #07070c;
-  --color-night: #0b0b13;
-  --color-panel: #10101a;
-  --color-panel2: #161624;
-  --color-snow: #f4f4fa;
-  --color-mist: rgba(240, 240, 250, 0.68);
-  --color-fog: rgba(240, 240, 250, 0.42);
-  --color-ghost: rgba(240, 240, 250, 0.2);
-  --color-line: rgba(240, 240, 250, 0.08);
-  --color-line2: rgba(240, 240, 250, 0.17);
-  --color-violet: #8b7cff;
-  --color-cyan: #35d6f0;
-  --color-mint: #3ef0c0;
+  /* monochrome — black / grey / white / silver */
+  --color-void: #060608;
+  --color-night: #0a0a0c;
+  --color-panel: #0f0f12;
+  --color-panel2: #16161a;
+  --color-snow: #f5f5f7;
+  --color-mist: rgba(232, 233, 238, 0.66);
+  --color-fog: rgba(232, 233, 238, 0.4);
+  --color-ghost: rgba(232, 233, 238, 0.2);
+  --color-line: rgba(232, 233, 238, 0.08);
+  --color-line2: rgba(232, 233, 238, 0.16);
+  --color-silver: #e6e7ec;
+  --color-steel: #a8abb6;
+  --color-chrome: #74767f;
 }
 
 html {
-  background: #07070c;
+  background: #060608;
   scrollbar-width: thin;
-  scrollbar-color: rgba(240, 240, 250, 0.18) transparent;
+  scrollbar-color: rgba(232, 233, 238, 0.18) transparent;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -33,12 +34,12 @@ body {
 }
 
 ::selection {
-  background: #8b7cff;
-  color: #07070c;
+  background: #e6e7ec;
+  color: #060608;
 }
 
 :focus-visible {
-  outline: 2px solid #8b7cff;
+  outline: 2px solid #e6e7ec;
   outline-offset: 3px;
 }
 
@@ -72,7 +73,7 @@ html.has-cursor [data-cursor] {
 }
 .eyebrow::before {
   content: '';
-  @apply h-px w-8 shrink-0 bg-gradient-to-r from-violet to-cyan;
+  @apply h-px w-8 shrink-0 bg-gradient-to-r from-silver to-chrome;
 }
 
 /* ---------- Type effects ---------- */
@@ -84,15 +85,16 @@ html[lang='hi'] .display-h {
   letter-spacing: 0;
 }
 
+/* brushed-silver metallic gradient */
 .grad-text {
-  background: linear-gradient(94deg, #8b7cff 5%, #35d6f0 55%, #3ef0c0 100%);
+  background: linear-gradient(100deg, #ffffff 0%, #d6d8e0 42%, #8f929e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .grad-chars [data-r] {
-  background: linear-gradient(94deg, #8b7cff 0%, #35d6f0 60%, #3ef0c0 100%);
+  background: linear-gradient(100deg, #ffffff 0%, #d6d8e0 48%, #8f929e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -100,16 +102,16 @@ html[lang='hi'] .display-h {
 
 .stroke-text {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(240, 240, 250, 0.28);
+  -webkit-text-stroke: 1px rgba(232, 233, 238, 0.28);
 }
 
 .wordmark [data-r] {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(240, 240, 250, 0.32);
+  -webkit-text-stroke: 1.5px rgba(232, 233, 238, 0.32);
   transition: color 0.45s ease, -webkit-text-stroke-color 0.45s ease;
 }
 .wordmark [data-r]:hover {
-  color: #f4f4fa;
+  color: #f5f5f7;
   -webkit-text-stroke-color: transparent;
 }
 
@@ -141,7 +143,7 @@ html[lang='hi'] .display-h {
   transition: opacity 0.5s ease;
   background: radial-gradient(
     420px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(139, 124, 255, 0.16),
+    rgba(232, 233, 238, 0.1),
     transparent 65%
   );
   pointer-events: none;
@@ -153,6 +155,6 @@ html[lang='hi'] .display-h {
 
 /* ---------- Dot grid decor ---------- */
 .dots {
-  background-image: radial-gradient(rgba(240, 240, 250, 0.14) 1px, transparent 1.4px);
+  background-image: radial-gradient(rgba(232, 233, 238, 0.14) 1px, transparent 1.4px);
   background-size: 18px 18px;
 }

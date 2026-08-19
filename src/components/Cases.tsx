@@ -5,13 +5,13 @@ import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
 
 const CARD_BG: [string, string][] = [
-  ['#171132', '#2a1e5c'],
-  ['#0e2230', '#123a4d'],
-  ['#101d1a', '#144538'],
-  ['#1c1430', '#35245e'],
-  ['#0f1626', '#1c2c4d'],
+  ['#141416', '#232327'],
+  ['#101013', '#1d1d21'],
+  ['#17171a', '#26262b'],
+  ['#121214', '#202024'],
+  ['#0e0e10', '#1b1b1f'],
 ]
-const CARD_ACCENT = ['#8b7cff', '#35d6f0', '#3ef0c0', '#8b7cff', '#35d6f0']
+const CARD_ACCENT = ['#f5f5f7', '#d6d8e0', '#b9bcc7', '#e6e7ec', '#c7c9d1']
 // royalty-free photos (Unsplash license), stored locally in public/work/
 const CARD_IMG = ['/work/finpay.jpg', '/work/karthub.jpg', '/work/logitrack.jpg', '/work/medicare.jpg', '/work/streambox.jpg']
 
@@ -133,7 +133,7 @@ export function Cases() {
 
       <div className="container-x mt-10 flex items-center gap-6">
         <div className="h-px flex-1 bg-line">
-          <motion.div style={{ scaleX: progress }} className="h-px origin-left bg-gradient-to-r from-violet via-cyan to-mint" />
+          <motion.div style={{ scaleX: progress }} className="h-px origin-left bg-gradient-to-r from-silver via-steel to-chrome" />
         </div>
         <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-fog">05</span>
       </div>

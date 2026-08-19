@@ -2,7 +2,6 @@ import { useLayoutEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { gsap, BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
-import { Aurora } from './ui/Aurora'
 import { RevealText } from './ui/Text'
 import { Magnetic } from './ui/Magnetic'
 
@@ -33,10 +32,9 @@ export function Hero({ playing }: { playing: boolean }) {
   })
 
   return (
-    <section id="hero" ref={secRef} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-void">
-      <Aurora className="absolute inset-0 h-full w-full" />
-      <div className="grain absolute inset-0" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-void" />
+    <section id="hero" ref={secRef} className="relative flex min-h-[100svh] flex-col">
+      {/* extra shade at the top so the headline pops over the tunnel */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void/70 via-transparent to-transparent" />
 
       <div ref={innerRef} className="container-x relative z-10 flex flex-1 flex-col justify-center pb-28 pt-32">
         <motion.span {...fade(0.15)} className="eyebrow">

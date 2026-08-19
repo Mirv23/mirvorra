@@ -8,6 +8,7 @@ import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
 import { Services } from './components/Services'
+import { TunnelScroll } from './components/TunnelScroll'
 import { Approach } from './components/Approach'
 import { Cases } from './components/Cases'
 import { WhyUs } from './components/WhyUs'
@@ -20,7 +21,7 @@ function ScrollProgress() {
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed inset-x-0 top-0 z-[80] h-[2px] origin-left bg-gradient-to-r from-violet via-cyan to-mint"
+      className="fixed inset-x-0 top-0 z-[80] h-[2px] origin-left bg-gradient-to-r from-silver via-steel to-chrome"
     />
   )
 }
@@ -36,9 +37,11 @@ export default function App() {
       <Preloader onDone={() => setReady(true)} />
       <Nav show={ready} />
       <main>
-        <Hero playing={ready} />
-        <About />
-        <Services />
+        <TunnelScroll>
+          <Hero playing={ready} />
+          <About />
+          <Services />
+        </TunnelScroll>
         <Approach />
         <Cases />
         <WhyUs />

@@ -75,12 +75,12 @@ export function WhyUs() {
             className="md:col-span-2"
           >
             <TiltCard className="h-72">
-              {/* rising embers, hue-shifted from orange to violet */}
+              {/* rising embers, hue-shifted from orange to silver */}
               <VideoBg
                 src="/videos/embers.mp4"
                 poster="/videos/embers.jpg"
                 className="absolute inset-0 h-full w-full opacity-90"
-                style={{ filter: 'hue-rotate(235deg) saturate(1.15)' }}
+                style={{ filter: 'grayscale(1) brightness(1.2)' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-void/75 via-transparent to-transparent" />
               {content(0)}
@@ -116,7 +116,7 @@ export function WhyUs() {
                     whileInView={{ scaleY: [0.2, 1, 0.4, 1][n], opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.3 + n * 0.1, ease: BEZIER }}
-                    className="h-10 w-1.5 origin-bottom rounded-full bg-gradient-to-t from-violet to-cyan"
+                    className="h-10 w-1.5 origin-bottom rounded-full bg-gradient-to-t from-silver to-steel"
                   />
                 ))}
               </div>
@@ -134,14 +134,14 @@ export function WhyUs() {
           >
             <TiltCard className="h-72">
               <div className="dots absolute inset-0 opacity-70" />
-              <span className="absolute left-[30%] top-[32%] h-2 w-2 rounded-full bg-mint">
-                <span className="absolute inset-0 animate-ping rounded-full bg-mint/60" />
+              <span className="absolute left-[30%] top-[32%] h-2 w-2 rounded-full bg-chrome">
+                <span className="absolute inset-0 animate-ping rounded-full bg-chrome/60" />
               </span>
-              <span className="absolute left-[62%] top-[22%] h-2 w-2 rounded-full bg-cyan">
-                <span className="absolute inset-0 animate-ping rounded-full bg-cyan/60 [animation-delay:0.6s]" />
+              <span className="absolute left-[62%] top-[22%] h-2 w-2 rounded-full bg-steel">
+                <span className="absolute inset-0 animate-ping rounded-full bg-steel/60 [animation-delay:0.6s]" />
               </span>
-              <span className="absolute left-[78%] top-[48%] h-2 w-2 rounded-full bg-violet">
-                <span className="absolute inset-0 animate-ping rounded-full bg-violet/60 [animation-delay:1.2s]" />
+              <span className="absolute left-[78%] top-[48%] h-2 w-2 rounded-full bg-silver">
+                <span className="absolute inset-0 animate-ping rounded-full bg-silver/60 [animation-delay:1.2s]" />
               </span>
               <div className="absolute inset-0 bg-gradient-to-t from-panel via-transparent to-transparent" />
               {content(3)}
@@ -160,9 +160,9 @@ export function WhyUs() {
               <svg viewBox="0 0 600 200" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
                 <defs>
                   <linearGradient id="chartG" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stopColor="#8b7cff" />
-                    <stop offset="0.55" stopColor="#35d6f0" />
-                    <stop offset="1" stopColor="#3ef0c0" />
+                    <stop offset="0" stopColor="#74767f" />
+                    <stop offset="0.55" stopColor="#c7c9d1" />
+                    <stop offset="1" stopColor="#ffffff" />
                   </linearGradient>
                 </defs>
                 <motion.path

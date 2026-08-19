@@ -4,6 +4,7 @@ import { BEZIER } from '../lib/anim'
 import { lenisStore } from '../lib/useLenis'
 import { useI18n, type Lang } from '../lib/i18n'
 import { Magnetic } from './ui/Magnetic'
+import { VideoBg } from './ui/VideoBg'
 
 function LangToggle({ className = '' }: { className?: string }) {
   const { lang, setLang } = useI18n()
@@ -133,8 +134,16 @@ export function Nav({ show }: { show: boolean }) {
             transition={{ duration: 0.8, ease: BEZIER }}
             className="fixed inset-0 z-[60] overflow-y-auto bg-night"
           >
+            {/* neon spiral, hue-shifted into the brand palette */}
+            <VideoBg
+              src="/videos/spiral.mp4"
+              poster="/videos/spiral.jpg"
+              className="absolute inset-0 h-full w-full opacity-25"
+              style={{ filter: 'hue-rotate(260deg) saturate(0.9)' }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-night via-night/70 to-night/40" />
             <div className="pointer-events-none absolute right-[-10%] top-[-20%] h-[60vh] w-[60vh] rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.14),transparent_65%)] blur-2xl" />
-            <div className="container-x grid min-h-full grid-cols-1 gap-10 pb-12 pt-28 md:pt-32 lg:grid-cols-[1.5fr_1fr]">
+            <div className="container-x relative z-10 grid min-h-full grid-cols-1 gap-10 pb-12 pt-28 md:pt-32 lg:grid-cols-[1.5fr_1fr]">
               <ul>
                 {t.nav.links.map((l, i) => (
                   <li key={l.href} className="overflow-hidden">

@@ -3,6 +3,7 @@ import { BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
 import { ScrubText, Counter } from './ui/Text'
 import { Marquee } from './ui/Marquee'
+import { VideoBg } from './ui/VideoBg'
 
 const CLIENTS = ['FinPay', 'LogiTrack', 'MediCare+', 'StreamBox', 'KartHub', 'EduSpark', 'AeroFleet', 'ZenPay']
 
@@ -29,8 +30,11 @@ export function About() {
           <ScrubText text={t.about.scrub} />
         </h2>
 
-        {/* stats */}
-        <div className="mt-16 grid grid-cols-2 border-l border-t border-line md:mt-24 lg:grid-cols-4">
+        {/* stats — digital-rain circuits behind the counters */}
+        <div className="relative mt-16 md:mt-24">
+          <VideoBg src="/videos/rain.mp4" poster="/videos/rain.jpg" className="absolute inset-0 h-full w-full opacity-30" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void/60 via-transparent to-void/60" />
+          <div className="relative grid grid-cols-2 border-l border-t border-line lg:grid-cols-4">
           {t.about.stats.map((s, i) => (
             <motion.div
               key={s.label}
@@ -46,6 +50,7 @@ export function About() {
               <div className="mt-3 max-w-[16ch] text-[0.82rem] leading-snug text-fog">{s.label}</div>
             </motion.div>
           ))}
+          </div>
         </div>
       </div>
 

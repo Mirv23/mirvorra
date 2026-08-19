@@ -12,6 +12,8 @@ const CARD_BG: [string, string][] = [
   ['#0f1626', '#1c2c4d'],
 ]
 const CARD_ACCENT = ['#8b7cff', '#35d6f0', '#3ef0c0', '#8b7cff', '#35d6f0']
+// royalty-free photos (Unsplash license), stored locally in public/work/
+const CARD_IMG = ['/work/finpay.jpg', '/work/karthub.jpg', '/work/logitrack.jpg', '/work/medicare.jpg', '/work/streambox.jpg']
 
 export function Cases() {
   const { t } = useI18n()
@@ -84,9 +86,17 @@ export function Cases() {
               className="group relative aspect-[3/4] w-[80vw] shrink-0 select-none overflow-hidden rounded-2xl sm:w-[46vw] lg:w-[31vw] xl:w-[26vw]"
             >
               <div
-                className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
+                className="absolute inset-0"
                 style={{ background: `linear-gradient(150deg, ${CARD_BG[i][0]}, ${CARD_BG[i][1]})` }}
               />
+              <img
+                src={CARD_IMG[i]}
+                alt={s.client}
+                loading="lazy"
+                draggable={false}
+                className="absolute inset-0 h-full w-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-void/95 via-void/35 to-void/25" />
               <div className="grain absolute inset-0" />
               <div
                 className="absolute inset-0 opacity-40 transition-opacity duration-700 group-hover:opacity-70"
@@ -95,7 +105,7 @@ export function Cases() {
 
               {/* giant ghost index */}
               <span
-                className="absolute -right-3 top-1/2 -translate-y-1/2 font-display text-[9rem] font-bold leading-none opacity-[0.08]"
+                className="absolute -right-3 top-1/2 -translate-y-1/2 font-display text-[9rem] font-bold leading-none opacity-[0.12] mix-blend-screen"
                 style={{ color: CARD_ACCENT[i] }}
               >
                 {String(i + 1).padStart(2, '0')}

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { gsap, BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
-import { Aurora } from './ui/Aurora'
+import { VideoBg } from './ui/VideoBg'
 
 /** 3D tilt + cursor spotlight card. */
 function TiltCard({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -75,8 +75,14 @@ export function WhyUs() {
             className="md:col-span-2"
           >
             <TiltCard className="h-72">
-              <Aurora className="absolute inset-0 h-full w-full opacity-80" intensity={0.9} />
-              <div className="absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent" />
+              {/* rising embers, hue-shifted from orange to violet */}
+              <VideoBg
+                src="/videos/embers.mp4"
+                poster="/videos/embers.jpg"
+                className="absolute inset-0 h-full w-full opacity-90"
+                style={{ filter: 'hue-rotate(235deg) saturate(1.15)' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-void/75 via-transparent to-transparent" />
               {content(0)}
             </TiltCard>
           </motion.div>

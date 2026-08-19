@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { gsap, BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
+import { VideoBg } from './ui/VideoBg'
 
 const HUES: [string, string][] = [
   ['#8b7cff', '#35d6f0'],
@@ -51,8 +52,11 @@ export function Services() {
   }
 
   return (
-    <section id="services" className="relative bg-void py-24 md:py-36">
-      <div className="container-x">
+    <section id="services" className="relative overflow-hidden bg-void py-24 md:py-36">
+      {/* rippling hex-grid backdrop */}
+      <VideoBg src="/videos/hex.mp4" poster="/videos/hex.jpg" className="absolute inset-0 h-full w-full opacity-[0.13]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-void/55 to-void" />
+      <div className="container-x relative z-10">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <span className="eyebrow">{t.services.eyebrow}</span>

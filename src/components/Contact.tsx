@@ -1,6 +1,7 @@
 import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
 import { Magnetic } from './ui/Magnetic'
+import { VideoBg } from './ui/VideoBg'
 
 export function Contact() {
   const { t } = useI18n()
@@ -8,6 +9,9 @@ export function Contact() {
   return (
     <>
       <section id="contact" className="relative flex min-h-[95vh] flex-col items-center justify-center overflow-hidden bg-void px-5 py-28 text-center">
+        {/* shimmering particle wave */}
+        <VideoBg src="/videos/sparkle.mp4" poster="/videos/sparkle.jpg" className="absolute inset-0 h-full w-full opacity-45" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-void/35 to-void" />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[75vmin] w-[75vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(139,124,255,0.15),rgba(53,214,240,0.06)_45%,transparent_70%)] blur-2xl" />
 
         <span className="eyebrow relative">{t.contact.eyebrow}</span>

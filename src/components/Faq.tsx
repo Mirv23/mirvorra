@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { BEZIER } from '../lib/anim'
 import { useI18n } from '../lib/i18n'
 import { RevealText } from './ui/Text'
+import { VideoBg } from './ui/VideoBg'
 
 export function Faq() {
   const { t } = useI18n()
@@ -12,8 +13,11 @@ export function Faq() {
   const list = t.faq.items.map((item, idx) => ({ ...item, idx })).filter((i) => filter === 'all' || i.cat === filter)
 
   return (
-    <section id="faq" className="relative bg-night py-24 md:py-36">
-      <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+    <section id="faq" className="relative overflow-hidden bg-night py-24 md:py-36">
+      {/* soft blue light drift */}
+      <VideoBg src="/videos/bluewave.mp4" poster="/videos/bluewave.jpg" className="absolute inset-0 h-full w-full opacity-[0.14]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-night via-night/60 to-night" />
+      <div className="container-x relative z-10 grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div>
           <span className="eyebrow">{t.faq.eyebrow}</span>
           <h2 className="display-h mt-4 max-w-md text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.15]">
